@@ -6,6 +6,31 @@
 #include "Runtime/Online/HTTP/Public/Http.h"
 #include "HttpActor.generated.h"
 
+//Temporary store the data read from the user
+USTRUCT()
+struct FSaveGameValues
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite)
+		FString currentLevel;
+	UPROPERTY(BlueprintReadWrite)
+		FString saveDateTime;
+	UPROPERTY(BlueprintReadWrite)
+		FVector playerPosition;
+	UPROPERTY(BlueprintReadWrite)
+		int machineGunBullets;
+	UPROPERTY(BlueprintReadWrite)
+		bool mission1Active;
+	UPROPERTY(BlueprintReadWrite)
+		bool mission1Complete;
+	UPROPERTY(BlueprintReadWrite)
+		bool mission2Active;
+	UPROPERTY(BlueprintReadWrite)
+		bool mission2Complete;
+};
+
+
 UCLASS()
 class GAMEPLAYPROGRAMMING_API AHttpActor : public AActor
 {
@@ -16,6 +41,11 @@ public:
 	FHttpModule* Http;
 
 	FString password;
+
+	UPROPERTY(BlueprintReadWrite)
+	FSaveGameValues saveGameValues;
+
+	UPROPERTY(BlueprintReadOnly)
 	bool ResponseReceived = false;
 
 	/* The actual HTTP call for GET*/
@@ -28,7 +58,7 @@ public:
 
 	/* The actual HTTP call for PUT*/
 	UFUNCTION(BlueprintCallable, Category = "RestAPI")
-	void MyHttpCallPut(FString username);
+	void MyHttpCallPut(FString username, FString currentLevel, FString saveDateTime, FVector playerPosition, int machineGunBullets, bool mission1Active, bool mission1Complete, bool mission2Active, bool mission2Complete);
 
 	/* The actual HTTP call for DELETE*/
 	UFUNCTION(BlueprintCallable, Category = "RestAPI")
